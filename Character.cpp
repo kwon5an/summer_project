@@ -1,5 +1,6 @@
 #include "Character.h"
 #include <iostream>
+using namespace std;
 
 Character::Character(const std::string& name, int hp)
     : name(name), hp(hp), maxHp(hp) {
@@ -8,13 +9,13 @@ Character::Character(const std::string& name, int hp)
 void Character::takeDamage(int damage) {
     hp -= damage;
     if (hp < 0) hp = 0;
-    std::cout << name << " takes " << damage << " damage. (HP: " << hp << "/" << maxHp << ")\n";
+    cout << name << "이/가 " << damage << "만큼의 데미지를 입었습니다. (HP: " << hp << "/" << maxHp << ")\n";
 }
 
 void Character::heal(int amount) {
     hp += amount;
     if (hp > maxHp) hp = maxHp;
-    std::cout << name << " heals for " << amount << ". (HP: " << hp << "/" << maxHp << ")\n";
+    cout << name << "이/가 " << amount << "만큼의 체력을 회복했습니다. (HP: " << hp << "/" << maxHp << ")\n";
 }
 
 bool Character::isAlive() const {

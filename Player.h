@@ -3,6 +3,7 @@
 
 #include "Character.h"  // Character 클래스 상속받기 위해 포함
 #include <string>
+using namespace std;
 
 class Player : public Character {
 private:
@@ -10,7 +11,7 @@ private:
     int healCooldown;      // 힐 쿨타임
 
 public:
-    Player(const std::string& name, int hp);
+    Player(const string& name, int hp);
 
     void basicAttack(Character& target);
     void skill2(Character& target);     // 치명타 공격

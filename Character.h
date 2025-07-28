@@ -2,6 +2,7 @@
 #define CHARACTER_H
 
 #include <string>
+using namespace std;
 
 class Character {
 protected:
@@ -10,7 +11,7 @@ protected:
     int maxHp;
 
 public:
-    Character(const std::string& name, int hp);
+    Character(const string& name, int hp);
     virtual ~Character() = default;
 
     // 공통 기능
@@ -19,7 +20,7 @@ public:
 
     // 상태 정보
     bool isAlive() const;
-    std::string getName() const;
+    string getName() const;
     int getHP() const;
     int getMaxHP() const;
 

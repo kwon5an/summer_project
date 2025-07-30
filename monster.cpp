@@ -36,7 +36,4 @@ void Monster::decreaseCooldown() {
         ultimateCooldownCurrent--;
     }
 }
-int main()
-{
 
-}

@@ -1,4 +1,4 @@
-﻿#ifndef PLAYER_H
+#ifndef PLAYER_H
 #define PLAYER_H
 
 #include "Character.h"
@@ -20,6 +20,7 @@ public:
     bool heal();                            // 회복
 
     void reduceCooldowns();  // 턴마다 쿨타임 감소
+
 
     bool canUseUltimate() const;
     bool canUseHeal() const;

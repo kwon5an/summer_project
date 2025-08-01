@@ -1,4 +1,5 @@
-﻿#include "Monster.h"
+
+#include "Monster.h"
 #include <iostream>
 using namespace std;
 
@@ -27,7 +28,6 @@ void Monster::decreaseCooldown() {
         ultimateCooldownCurrent--;
     }
 }
-
 
 // 추가: 몬스터 궁극기 현재 쿨타임을 가져오는 함수 구현
 int Monster::getUltimateCooldownCurrent() const {

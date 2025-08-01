@@ -1,4 +1,4 @@
-﻿#ifndef CHARACTER_H
+ï»¿#ifndef CHARACTER_H
 #define CHARACTER_H
 
 #include <string>
@@ -22,8 +22,9 @@ public:
     int getHP() const;
     int getMaxHP() const;
 
-    // 상태 출력
-    virtual void printStatus() const = 0; // 순수가상함수
+
+    virtual void printStatus() const = 0; 
+
 };
 
 #endif

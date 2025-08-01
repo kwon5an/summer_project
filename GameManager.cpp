@@ -1,93 +1,101 @@
 #include "GameManager.h"
 #include <iostream>
-
 using namespace std;
 
-GameManager::GameManager() {
-	monsterCount = 1; 
-	turn = 1;
-	player = new Player(PlayerName, 100);  
-	monster = new Monster(monsterCount);
+GameManager::GameManager(const string& playerName) {
+    monsterCount = 1;
+    turn = 1;
+    player = new Player(playerName, 100);
+    monster = new Monster("Monster1", 50, 10, 25, 3);
 }
 
 GameManager::~GameManager() {
-	delete player;
-	delete monster;
+    delete player;
+    delete monster;
 }
 
 void GameManager::StartGame() {
-	cout << "∞‘¿” Ω√¿€\n";
-	while (true) {
-		cout << "\n===== [Turn " << turn << "] =====\n";
-		PrintStatus();
+    cout << "Í≤åÏûÑ ÏãúÏûë!\n";
+    while (true) {
+        cout << "\n===== [Turn " << turn << "] =====\n";
+        PrintStatus();
 
-		PlayerTurn();
-		if (IsGameover()) break;
+        PlayerTurn();
+        if (IsGameover()) break;
 
-		MonsterTurn();
-		if (IsGameover()) break;
+        MonsterTurn();
+        if (IsGameover()) break;
 
-		turn++;
-	}
+        turn++;
+    }
 }
 
 void GameManager::PlayerTurn() {
-	int skill;
-	while (true) {
-		cout << "«√∑π¿ÃæÓ¿« ≈œ¿‘¥œ¥Ÿ. Ω∫≈≥¿ª º±≈√«œººø‰:\n";
-		cout << "1. ±‚∫ª ∞¯∞›\n";
-		cout << "2. Ω∫≈≥ (ƒ°∏Ì≈∏ ∞¯∞›)\n";
-		cout << "3. ±√±ÿ±‚\n";
-		cout << "4. »˙\n";
-		cout << ">> ";
-		cin >> skill;
+    int skill;
+    while (true) {
+        cout << "ÌîåÎ†àÏù¥Ïñ¥Ïùò ÌÑ¥ÏûÖÎãàÎã§. Ïä§ÌÇ¨ÏùÑ ÏÑ†ÌÉùÌïòÏÑ∏Ïöî:\n";
+        cout << "1. Í∏∞Î≥∏ Í≥µÍ≤©\n";
+        cout << "2. Ïä§ÌÇ¨ (ÏπòÎ™ÖÌÉÄ Í≥µÍ≤©)\n";
+        cout << "3. Í∂ÅÍ∑πÍ∏∞\n";
+        cout << "4. Ìûê\n";
+        cout << ">> ";
+        cin >> skill;
 
-		if (skill < 1 || skill > 4) {
-			cout << "¿ﬂ∏¯µ» º±≈√¿‘¥œ¥Ÿ. ¥ŸΩ√ Ω√µµ«œººø‰.\n";
-			cin.clear();
-			cin.ignore(1000, '\n');
-			continue;
-		}
+        if (skill < 1 || skill > 4) {
+            cout << "ÏûòÎ™ªÎêú ÏÑ†ÌÉùÏûÖÎãàÎã§. Îã§Ïãú ÏãúÎèÑÌïòÏÑ∏Ïöî.\n";
+            cin.clear();
+            cin.ignore(1000, '\n');
+            continue;
+        }
 
-		switch (skill) {
-		case 1:
-			player->basicAttack(*monster);
-			break;
-		case 2:
-			player->skill2(*monster);
-			break;
-		case 3:
-			player->ultimateSkill(*monster);
-			break;
-		case 4:
-			player->heal();
-			break;
-		}
-		cin.ignore();
-		player->reduceCooldowns(); 
-		break;
-	}
+        switch (skill) {
+        case 1:
+            player->basicAttack(*monster);
+            break;
+        case 2:
+            player->skill2(*monster);
+            break;
+        case 3:
+            player->ultimateSkill(*monster);
+            break;
+        case 4:
+            player->heal();
+            break;
+        }
+
+        player->reduceCooldowns();
+        break;
+    }
 }
 
 void GameManager::MonsterTurn() {
-	cout << "∏ÛΩ∫≈Õ¿« ≈œ¿‘¥œ¥Ÿ.\n";
-	monster->UseSkill(1, *player); //∏ÛΩ∫≈Õ UseSkill() ∏ﬁº“µÂ √ﬂ∞°«œ±‚
+    cout << "Î™¨Ïä§ÌÑ∞Ïùò ÌÑ¥ÏûÖÎãàÎã§.\n";
+    int damage = monster->performAction();
+    player->takeDamage(damage);
+    monster->decreaseCooldown();
 }
 
 void GameManager::PrintStatus() {
-	cout << "[ªÛ≈¬]\n" << player->getStatus() << monster->getStatus() << endl;
+    cout << "[ÌòÑÏû¨ ÏÉÅÌÉú]\n";
+    player->printStatus();
+    monster->printStatus();
 }
 
 bool GameManager::IsGameover() {
-	if (!player->Character::isAlive()) {
-		cout << "«√∑π¿ÃæÓ∞° ∆–πË«ﬂΩ¿¥œ¥Ÿ. Game Over.\n";
-		return true;
-	}
-	if (!monster->Character::isAlive()) {
-		cout << "∏ÛΩ∫≈Õ∏¶ √≥ƒ°«ﬂΩ¿¥œ¥Ÿ.\n";
-		delete monster;
-		monster = new Monster(++monsterCount);
-		cout << monster->Character::getName() << "¿Ã/∞° µÓ¿Â«ﬂΩ¿¥œ¥Ÿ.\n"; //getName() æÚæÓ¡ˆ¥¬∞≈ »Æ¿Œ«ÿæﬂ«‘
-	}
-	return false;
+    if (!player->isAlive()) {
+        cout << "ÌîåÎ†àÏù¥Ïñ¥Í∞Ä Ìå®Î∞∞ÌñàÏäµÎãàÎã§. Í≤åÏûÑ Ï¢ÖÎ£å.\n";
+        return true;
+    }
+
+    if (!monster->isAlive()) {
+        cout << "Î™¨Ïä§ÌÑ∞Î•º Ï≤òÏπòÌñàÏäµÎãàÎã§!\n";
+        delete monster;
+        monsterCount++;
+        monster = new Monster("Monster" + to_string(monsterCount), 50 + monsterCount * 10, 10 + monsterCount * 2, 25 + monsterCount * 2, 3);
+        cout << monster->getName() << "Ïù¥/Í∞Ä ÏÉàÎ°ú Îì±Ïû•ÌñàÏäµÎãàÎã§!\n";
+    }
+
+    return false;
+
+
 }

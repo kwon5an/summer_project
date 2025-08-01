@@ -14,6 +14,9 @@ public:
 
     void printStatus() const override;
 
+    // 추가: 몬스터 궁극기 현재 쿨타임을 가져오는 함수
+    int getUltimateCooldownCurrent() const;
+
 protected:
     int baseAttackDamage;
     int ultimateAttackDamage;

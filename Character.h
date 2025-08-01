@@ -1,4 +1,4 @@
-#ifndef CHARACTER_H
+ï»¿#ifndef CHARACTER_H
 #define CHARACTER_H
 
 #include <string>
@@ -6,7 +6,7 @@ using namespace std;
 
 class Character {
 protected:
-    std::string name;
+    string name;
     int hp;
     int maxHp;
 
@@ -14,18 +14,16 @@ public:
     Character(const string& name, int hp);
     virtual ~Character() = default;
 
-    // °øÅë ±â´É
     virtual void takeDamage(int damage);
     virtual void heal(int amount);
 
-    // »óÅÂ Á¤º¸
     bool isAlive() const;
     string getName() const;
     int getHP() const;
     int getMaxHP() const;
 
-    // °¢ Ä³¸¯ÅÍÀÇ Çàµ¿ - ¿À¹ö¶óÀÌµù ¿¹»ó
-    virtual void printStatus() const = 0;
+    // ìƒíƒœ ì¶œë ¥
+    virtual void printStatus() const = 0; // ìˆœìˆ˜ê°€ìƒí•¨ìˆ˜
 };
 
 #endif

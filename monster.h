@@ -1,23 +1,20 @@
-#ifndef MONSTER_H
+ï»¿#ifndef MONSTER_H
 #define MONSTER_H
 
-#include "Character.h" // Character Å¬·¡½º¸¦ »ó¼Ó¹Ş±â À§ÇØ Æ÷ÇÔ
+#include "Character.h"
 #include <string>
-
 using namespace std;
 
 class Monster : public Character {
 public:
-    // »ı¼ºÀÚ
     Monster(const string& name, int hp, int baseDamage, int ultDamage, int ultCooldown);
 
-    // performAction ÇÔ¼ö¸¦ °¡»ó ÇÔ¼ö·Î ¼±¾ğÇÏ¿© ÆÄ»ı Å¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµù °¡´ÉÇÏ°Ô ÇÔ
-    // virtual Å°¿öµå Ãß°¡
-    virtual int performAction(); // ¸ó½ºÅÍ°¡ °¡ÇÏ´Â ÇÇÇØ·®À» ¹İÈ¯
+    int performAction();     // ê³µê²© ê²°ì • ë° ë°ë¯¸ì§€ ë°˜í™˜
+    void decreaseCooldown(); // ì¿¨íƒ€ì„ ê°ì†Œ
 
-    void decreaseCooldown();
+    void printStatus() const override;
 
-protected: // ÀÚ½Ä Å¬·¡½º¿¡¼­ Á¢±ÙÇÒ ¼ö ÀÖµµ·Ï protected·Î º¯°æ
+protected:
     int baseAttackDamage;
     int ultimateAttackDamage;
     int ultimateCooldownMax;

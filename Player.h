@@ -1,27 +1,29 @@
-#ifndef PLAYER_H
+ï»¿#ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Character.h"  // Character Å¬·¡½º »ó¼Ó¹Ş±â À§ÇØ Æ÷ÇÔ
+#include "Character.h"
 #include <string>
 using namespace std;
 
 class Player : public Character {
 private:
-    int ultimateCooldown;  // ±Ã±Ø±â ÄğÅ¸ÀÓ
-    int healCooldown;      // Èú ÄğÅ¸ÀÓ
+    int ultimateCooldown;
+    int healCooldown;
 
 public:
     Player(const string& name, int hp);
 
     void basicAttack(Character& target);
-    void skill2(Character& target);     // Ä¡¸íÅ¸ °ø°İ
-    void ultimateSkill(Character& target); // ±Ã±Ø±â (ÄğÅ¸ÀÓ ÀÖÀ½)
-    void heal();                        // Èú (ÄğÅ¸ÀÓ ÀÖÀ½)
+    void skill2(Character& target);         // ì¹˜ëª…íƒ€ ê³µê²©
+    void ultimateSkill(Character& target);  // ê¶ê·¹ê¸°
+    void heal();                            // íšŒë³µ
 
-    void reduceCooldowns();  // ÄğÅ¸ÀÓ 1¾¿ ÁÙÀÌ±â (ÅÏ¸¶´Ù È£Ãâ)
+    void reduceCooldowns();  // í„´ë§ˆë‹¤ ì¿¨íƒ€ì„ ê°ì†Œ
 
     bool canUseUltimate() const;
     bool canUseHeal() const;
+
+    void printStatus() const override;
 };
 
 #endif

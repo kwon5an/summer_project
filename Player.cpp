@@ -1,52 +1,57 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include <iostream>
-#include <cstdlib>  // rand()
-#include <ctime>    // time()
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
-Player::Player(const std::string& name, int hp)
+Player::Player(const string& name, int hp)
     : Character(name, hp), ultimateCooldown(0), healCooldown(0) {
-    srand(std::time(nullptr));  // Ä¡¸íÅ¸ È®·ü¿ë ½Ãµå ÃÊ±âÈ­
+    srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 void Player::basicAttack(Character& target) {
     int damage = 10;
-    cout << getName() << "ÀÌ/°¡ ±âº»°ø°ÝÀ» »ç¿ëÇß½À´Ï´Ù!\n";
+    cout << name << "ì´/ê°€ ê¸°ë³¸ ê³µê²©ì„ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
     target.takeDamage(damage);
 }
 
 void Player::skill2(Character& target) {
-    cout << getName() << "ÀÌ/°¡ °­È­ ½ºÅ³À» »ç¿ëÇß½À´Ï´Ù!!(Ä¡¸íÅ¸)\n";
-    int critChance = std::rand() % 100;  // 0~99
-    int damage = (critChance < 30) ? 30 : 15;  // 30% È®·ü·Î Ä¡¸íÅ¸
+    cout << name << "ì´/ê°€ ì¹˜ëª…íƒ€ ìŠ¤í‚¬ì„ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
+    int critChance = rand() % 100;
+    int damage = (critChance < 30) ? 30 : 15;
+
     if (critChance < 30)
-        cout << "Ä¡¸íÅ¸ ÀûÁß!!\n";
+        cout << "ì¹˜ëª…íƒ€ ì„±ê³µ!! ";
     else
-        cout << "ÀûÁß ½ÇÆÐ!.\n";
-    target.takeDamage(0);
+        cout << "ì¹˜ëª…íƒ€ ì‹¤íŒ¨. ";
+
+    target.takeDamage(damage);
 }
 
 void Player::ultimateSkill(Character& target) {
     if (canUseUltimate()) {
-        cout << getName() << "ÀÌ/°¡ ±Ã±Ø±â¸¦ »ç¿ëÇß½À´Ï´Ù!!\n";
+        cout << name << "ì´/ê°€ ê¶ê·¹ê¸°ë¥¼ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
         target.takeDamage(50);
-        ultimateCooldown = 5;  // ÄðÅ¸ÀÓ 5ÅÏ
+        ultimateCooldown = 5;
     }
     else {
-        cout << "±Ã±Ø±â´Â ¾ÆÁ÷ ÄðÅ¸ÀÓÀÔ´Ï´Ù! (" << ultimateCooldown << " ¸¸Å­ ÅÏÀÌ ³²¾Ò½À´Ï´Ù.).\n";
+        cout << "ê¶ê·¹ê¸°ëŠ” ì•„ì§ ì¿¨íƒ€ìž„ìž…ë‹ˆë‹¤. (" << ultimateCooldown << "í„´ ë‚¨ìŒ)\n";
     }
 }
 
 void Player::heal() {
     if (canUseHeal()) {
-        int healAmount = (getMaxHP() - getHP()) * 0.5;  // ±ðÀÎ Ã¼·ÂÀÇ 50% È¸º¹
-        if (healAmount <= 0) healAmount = 0;
-        cout << getName() << "ÀÌ/°¡ Ã¼·ÂÀ» È¸º¹ÇÏ¿´½À´Ï´Ù!" << healAmount << " ¸¸Å­ Ã¼·Â È¸º¹!!\n";
+        int healAmount = static_cast<int>((maxHp - hp) * 0.5);
+        if (healAmount <= 0) {
+            cout << name << "ì˜ ì²´ë ¥ì´ ì´ë¯¸ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤!\n";
+            return;
+        }
+        cout << name << "ì´/ê°€ " << healAmount << "ë§Œí¼ ì²´ë ¥ì„ íšŒë³µí–ˆìŠµë‹ˆë‹¤!\n";
         Character::heal(healAmount);
-        healCooldown = 3;  // ÄðÅ¸ÀÓ 4ÅÏ
+        healCooldown = 3;
     }
     else {
-        cout << "Èú ½ºÅ³Àº ¾ÆÁ÷ ÄðÅ¸ÀÓÀÔ´Ï´Ù!!(" << healCooldown << " ¸¸Å­ ³²¾Ò½À´Ï´Ù!).\n";
+        cout << "ížì€ ì•„ì§ ì¿¨íƒ€ìž„ìž…ë‹ˆë‹¤. (" << healCooldown << "í„´ ë‚¨ìŒ)\n";
     }
 }
 
@@ -61,4 +66,8 @@ bool Player::canUseUltimate() const {
 
 bool Player::canUseHeal() const {
     return healCooldown == 0;
+}
+
+void Player::printStatus() const {
+    cout << name << " (í”Œë ˆì´ì–´) HP: " << hp << "/" << maxHp << "\n";
 }

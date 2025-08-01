@@ -12,7 +12,11 @@ public:
     int performAction();     // 공격 결정 및 데미지 반환
     void decreaseCooldown(); // 쿨타임 감소
 
+
     void printStatus() const override;
+
+    // 추가: 몬스터 궁극기 현재 쿨타임을 가져오는 함수
+    int getUltimateCooldownCurrent() const;
 
 protected:
     int baseAttackDamage;

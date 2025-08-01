@@ -14,11 +14,12 @@ public:
     Player(const string& name, int hp);
 
     void basicAttack(Character& target);
-    void skill2(Character& target);         // Ä¡¸íÅ¸ °ø°İ
-    void ultimateSkill(Character& target);  // ±Ã±Ø±â
-    void heal();                            // È¸º¹
+    void skill2(Character& target);         // ì¹˜ëª…íƒ€ ê³µê²©
+    void ultimateSkill(Character& target);  // ê¶ê·¹ê¸°
+    void heal();                            // íšŒë³µ
 
-    void reduceCooldowns();  // ÅÏ¸¶´Ù ÄğÅ¸ÀÓ °¨¼Ò
+    void reduceCooldowns();  // í„´ë§ˆë‹¤ ì¿¨íƒ€ì„ ê°ì†Œ
+
 
     bool canUseUltimate() const;
     bool canUseHeal() const;

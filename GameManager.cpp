@@ -32,6 +32,8 @@ void GameManager::StartGame() {
 
 void GameManager::PlayerTurn() {
     int skill;
+    bool skillUsedSuccessfully = false;
+
     while (true) {
         cout << "플레이어의 턴입니다. 스킬을 선택하세요:\n";
         cout << "1. 기본 공격\n";
@@ -51,20 +53,25 @@ void GameManager::PlayerTurn() {
         switch (skill) {
         case 1:
             player->basicAttack(*monster);
+            skillUsedSuccessfully = true;
             break;
         case 2:
             player->skill2(*monster);
+            skillUsedSuccessfully = true;
             break;
         case 3:
-            player->ultimateSkill(*monster);
+            skillUsedSuccessfully = player->ultimateSkill(*monster);
             break;
         case 4:
-            player->heal();
+            skillUsedSuccessfully = player->heal();
             break;
         }
 
-        player->reduceCooldowns();
-        break;
+        if (skillUsedSuccessfully) {
+            // 스킬 사용에 성공했을 경우에만 쿨타임 감소 및 턴 종료
+            player->reduceCooldowns();
+            break; // 플레이어 턴 종료
+        }
     }
 }
 

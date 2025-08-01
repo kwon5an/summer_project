@@ -1,4 +1,4 @@
-﻿#ifndef MONSTER_H
+#ifndef MONSTER_H
 #define MONSTER_H
 
 #include "Character.h"
@@ -11,6 +11,7 @@ public:
 
     int performAction();     // 공격 결정 및 데미지 반환
     void decreaseCooldown(); // 쿨타임 감소
+
 
     void printStatus() const override;
 

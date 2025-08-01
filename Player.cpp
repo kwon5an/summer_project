@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+癤#include "Player.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>

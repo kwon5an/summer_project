@@ -9,8 +9,8 @@ class Monster : public Character {
 public:
     Monster(const string& name, int hp, int baseDamage, int ultDamage, int ultCooldown);
 
-    int performAction();     // °ø°İ °áÁ¤ ¹× µ¥¹ÌÁö ¹İÈ¯
-    void decreaseCooldown(); // ÄğÅ¸ÀÓ °¨¼Ò
+    int performAction();     // ê³µê²© ê²°ì • ë° ë°ë¯¸ì§€ ë°˜í™˜
+    void decreaseCooldown(); // ì¿¨íƒ€ì„ ê°ì†Œ
 
     void printStatus() const override;
 

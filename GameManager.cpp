@@ -15,7 +15,7 @@ GameManager::~GameManager() {
 }
 
 void GameManager::StartGame() {
-    cout << "°ÔÀÓ ½ÃÀÛ!\n";
+    cout << "ê²Œìž„ ì‹œìž‘!\n";
     while (true) {
         cout << "\n===== [Turn " << turn << "] =====\n";
         PrintStatus();
@@ -33,16 +33,16 @@ void GameManager::StartGame() {
 void GameManager::PlayerTurn() {
     int skill;
     while (true) {
-        cout << "ÇÃ·¹ÀÌ¾îÀÇ ÅÏÀÔ´Ï´Ù. ½ºÅ³À» ¼±ÅÃÇÏ¼¼¿ä:\n";
-        cout << "1. ±âº» °ø°Ý\n";
-        cout << "2. ½ºÅ³ (Ä¡¸íÅ¸ °ø°Ý)\n";
-        cout << "3. ±Ã±Ø±â\n";
-        cout << "4. Èú\n";
+        cout << "í”Œë ˆì´ì–´ì˜ í„´ìž…ë‹ˆë‹¤. ìŠ¤í‚¬ì„ ì„ íƒí•˜ì„¸ìš”:\n";
+        cout << "1. ê¸°ë³¸ ê³µê²©\n";
+        cout << "2. ìŠ¤í‚¬ (ì¹˜ëª…íƒ€ ê³µê²©)\n";
+        cout << "3. ê¶ê·¹ê¸°\n";
+        cout << "4. íž\n";
         cout << ">> ";
         cin >> skill;
 
         if (skill < 1 || skill > 4) {
-            cout << "Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù. ´Ù½Ã ½ÃµµÇÏ¼¼¿ä.\n";
+            cout << "ìž˜ëª»ëœ ì„ íƒìž…ë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•˜ì„¸ìš”.\n";
             cin.clear();
             cin.ignore(1000, '\n');
             continue;
@@ -69,31 +69,33 @@ void GameManager::PlayerTurn() {
 }
 
 void GameManager::MonsterTurn() {
-    cout << "¸ó½ºÅÍÀÇ ÅÏÀÔ´Ï´Ù.\n";
+    cout << "ëª¬ìŠ¤í„°ì˜ í„´ìž…ë‹ˆë‹¤.\n";
     int damage = monster->performAction();
     player->takeDamage(damage);
     monster->decreaseCooldown();
 }
 
 void GameManager::PrintStatus() {
-    cout << "[ÇöÀç »óÅÂ]\n";
+    cout << "[í˜„ìž¬ ìƒíƒœ]\n";
     player->printStatus();
     monster->printStatus();
 }
 
 bool GameManager::IsGameover() {
     if (!player->isAlive()) {
-        cout << "ÇÃ·¹ÀÌ¾î°¡ ÆÐ¹èÇß½À´Ï´Ù. °ÔÀÓ Á¾·á.\n";
+        cout << "í”Œë ˆì´ì–´ê°€ íŒ¨ë°°í–ˆìŠµë‹ˆë‹¤. ê²Œìž„ ì¢…ë£Œ.\n";
         return true;
     }
 
     if (!monster->isAlive()) {
-        cout << "¸ó½ºÅÍ¸¦ Ã³Ä¡Çß½À´Ï´Ù!\n";
+        cout << "ëª¬ìŠ¤í„°ë¥¼ ì²˜ì¹˜í–ˆìŠµë‹ˆë‹¤!\n";
         delete monster;
         monsterCount++;
         monster = new Monster("Monster" + to_string(monsterCount), 50 + monsterCount * 10, 10 + monsterCount * 2, 25 + monsterCount * 2, 3);
-        cout << monster->getName() << "ÀÌ/°¡ »õ·Î µîÀåÇß½À´Ï´Ù!\n";
+        cout << monster->getName() << "ì´/ê°€ ìƒˆë¡œ ë“±ìž¥í–ˆìŠµë‹ˆë‹¤!\n";
     }
 
     return false;
+
+
 }

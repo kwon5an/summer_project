@@ -1,9 +1,11 @@
+
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
 #include "Player.h"
 #include "Monster.h"
 #include <string>
+
 using namespace std;
 
 class GameManager {
@@ -25,3 +27,4 @@ public:
 };
 
 #endif
+

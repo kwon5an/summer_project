@@ -1,4 +1,4 @@
-#include "Character.h"
+ï»¿#include "Character.h"
 #include <iostream>
 using namespace std;
 
@@ -9,13 +9,15 @@ Character::Character(const string& name, int hp)
 void Character::takeDamage(int damage) {
     hp -= damage;
     if (hp < 0) hp = 0;
-    cout << name << "ÀÌ/°¡ " << damage << "ÀÇ µ¥¹ÌÁö¸¦ ÀÔ¾ú½À´Ï´Ù. (HP: " << hp << "/" << maxHp << ")\n";
+
+    cout << name << "ì´/ê°€ " << damage << "ì˜ ë°ë¯¸ì§€ë¥¼ ìž…ì—ˆìŠµë‹ˆë‹¤. (HP: " << hp << "/" << maxHp << ")\n";
 }
 
 void Character::heal(int amount) {
     hp += amount;
     if (hp > maxHp) hp = maxHp;
-    cout << name << "ÀÌ/°¡ " << amount << "¸¸Å­ Ã¼·ÂÀ» È¸º¹Çß½À´Ï´Ù. (HP: " << hp << "/" << maxHp << ")\n";
+
+    cout << name << "ì´/ê°€ " << amount << "ë§Œí¼ ì²´ë ¥ì„ íšŒë³µí–ˆìŠµë‹ˆë‹¤. (HP: " << hp << "/" << maxHp << ")\n";
 }
 
 bool Character::isAlive() const {

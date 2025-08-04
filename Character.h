@@ -1,4 +1,4 @@
-#ifndef CHARACTER_H
+ï»¿#ifndef CHARACTER_H
 #define CHARACTER_H
 
 #include <string>
@@ -15,15 +15,14 @@ public:
     virtual ~Character() = default;
 
     virtual void takeDamage(int damage);
-    virtual void heal(int amount);
+    virtual void heal(int amount); // Characterì˜ healì€ amount ì¸ìë¥¼ ë°›ìŒ
 
     bool isAlive() const;
     string getName() const;
     int getHP() const;
     int getMaxHP() const;
 
-    // »óÅÂ Ãâ·Â
-    virtual void printStatus() const = 0; // ¼ø¼ö°¡»óÇÔ¼ö
+    virtual void printStatus() const = 0; // ìˆœìˆ˜ ê°€ìƒ í•¨ìˆ˜
 };
 
 #endif

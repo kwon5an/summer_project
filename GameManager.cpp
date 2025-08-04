@@ -1,170 +1,174 @@
 #include "GameManager.h"
+#include <windows.h>
+#include <algorithm>
+#include <cstdlib>
 #include <iostream>
-#include <algorithm> // for find()
-#include <cstdlib>   // for rand()
-// #include <ctime>     // srand()ê°€ mainìœ¼ë¡œ ì´ë™í–ˆìœ¼ë¯€ë¡œ ì—¬ê¸°ì„œëŠ” ë¶ˆí•„ìš”
+
 using namespace std;
 
 GameManager::GameManager(const string& playerName) {
-    // srand(time(0)); // ë‚œìˆ˜ ì´ˆê¸°í™”ëŠ” main í•¨ìˆ˜ì—ì„œ í•œ ë²ˆë§Œ í•˜ë„ë¡ ìˆ˜ì •ë¨
-    monsterCount = 1;
-    turn = 1;
-    player = new Player(playerName, 100);
-    monster = new Monster("Monster1", 50, 10, 25, 3);
+	monsterCount = 1;
+	turn = 1;
+	player = new Player(playerName, 100);
+	monster = new Monster("Monster1", 50, 10, 25, 3);
 
-    GenerateEarlyEventTurns(); // ì´ˆë°˜ ê³ ì • ì´ë²¤íŠ¸ í„´ ìƒì„±
+	GenerateEarlyEventTurns();
 }
 
 GameManager::~GameManager() {
-    delete player;
-    delete monster;
+	delete player;
+	delete monster;
 }
 
-void GameManager::StartGame() {
-    cout << "ê²Œì„ ì‹œì‘!\n";
-    while (true) {
-        cout << "\n===== [Turn " << turn << "] =====\n";
-        PrintStatus();
+void GameManager::startGame() {
+	cout << endl << "°ÔÀÓ ½ÃÀÛ!" << endl << endl;
+	Sleep(300);
+	while (true) {
+		cout << "===== [ Turn " << turn << " ] =====" << endl << endl;
+		PrintStatus();
 
-        CheckEventTurn(); // ì´ë²¤íŠ¸ ì²´í¬
+		CheckEventTurn();
 
-        PlayerTurn();
-        if (IsGameover()) break; // í”Œë ˆì´ì–´ í„´ í›„ ê²Œì„ ì¢…ë£Œ ì—¬ë¶€ í™•ì¸
+		PlayerTurn();
+		if (IsGameover()) break;
 
-        MonsterTurn();
-        if (IsGameover()) break; // ëª¬ìŠ¤í„° í„´ í›„ ê²Œì„ ì¢…ë£Œ ì—¬ë¶€ í™•ì¸
+		MonsterTurn();
+		if (IsGameover()) break;
 
-        turn++;
-    }
+		turn++;
+	}
 }
 
 void GameManager::PlayerTurn() {
-    int skill;
-    bool skillUsedSuccessfully = false;
+	int skill;
+	bool skillUsedSuccessfully = false;
 
-    while (true) {
-        cout << "í”Œë ˆì´ì–´ì˜ í„´ì…ë‹ˆë‹¤. ìŠ¤í‚¬ì„ ì„ íƒí•˜ì„¸ìš”:\n";
-        cout << "1. ê¸°ë³¸ ê³µê²©\n";
-        cout << "2. ìŠ¤í‚¬ (ì¹˜ëª…íƒ€ ê³µê²©)\n";
-        cout << "3. ê¶ê·¹ê¸° (" << player->getUltimateCooldown() << "í„´ ë‚¨ìŒ)\n"; // ì¿¨íƒ€ì„ í‘œì‹œ
-        cout << "4. í (" << player->getHealCooldown() << "í„´ ë‚¨ìŒ)\n";         // ì¿¨íƒ€ì„ í‘œì‹œ
-        cout << ">> ";
-        cin >> skill;
+	while (true) {
+		cout << "ÇÃ·¹ÀÌ¾îÀÇ ÅÏÀÔ´Ï´Ù. ½ºÅ³À» ¼±ÅÃÇÏ¼¼¿ä." << endl << endl;
+		cout << "1. ÀÏ¹İ °ø°İ" << endl;
+		cout << "2. ½ºÅ³ (Ä¡¸íÅ¸ °ø°İ)" << endl;
+		cout << "3. ±Ã±Ø±â (" << player->getUltimateCooldown() << "ÅÏ ³²À½)" << endl;
+		cout << "4. Èú (" << player->getHealCooldown() << "ÅÏ ³²À½)" << endl;
+		cout << endl << ">>";
+		cin >> skill;
 
-        if (cin.fail() || skill < 1 || skill > 4) { // ìœ íš¨í•˜ì§€ ì•Šì€ ì…ë ¥ ì²˜ë¦¬
-            cout << "ì˜ëª»ëœ ì„ íƒì…ë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•˜ì„¸ìš”.\n";
-            cin.clear();
-            cin.ignore(1000, '\n');
-            continue;
-        }
+		if (cin.fail() || skill < 1 || skill > 4) {
+			cout << "Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù. ´Ù½Ã ½ÃµµÇÏ¼¼¿ä." << endl << endl;
+			cin.clear();
+			cin.ignore(1000, '\n');
+			continue;
+		}
+		switch (skill) {
+		case 1:
+			player->basicAttack(*monster);
+			skillUsedSuccessfully = true;
+			break;
+		case 2:
+			player->skill2(*monster);
+			skillUsedSuccessfully = true;
+			break;
+		case 3:
+			skillUsedSuccessfully = player->ultimateSkill(*monster);
+			break;
+		case 4:
+			skillUsedSuccessfully = player->heal();
+			break;
+		}
 
-        switch (skill) {
-        case 1:
-            player->basicAttack(*monster);
-            skillUsedSuccessfully = true;
-            break;
-        case 2:
-            player->skill2(*monster);
-            skillUsedSuccessfully = true;
-            break;
-        case 3:
-            skillUsedSuccessfully = player->ultimateSkill(*monster);
-            break;
-        case 4:
-            skillUsedSuccessfully = player->heal(); // ì¸ì ì—†ëŠ” heal í˜¸ì¶œ
-            break;
-        }
-
-        if (skillUsedSuccessfully) {
-            player->reduceCooldowns(); // ìŠ¤í‚¬ ì‚¬ìš©ì— ì„±ê³µí–ˆì„ ê²½ìš°ì—ë§Œ ì¿¨íƒ€ì„ ê°ì†Œ ë° í„´ ì¢…ë£Œ
-            break; // í”Œë ˆì´ì–´ í„´ ì¢…ë£Œ
-        }
-    }
+		if (skillUsedSuccessfully) {
+			player->reduceCooldowns();
+			break;
+		}
+	}
 }
+	void GameManager::MonsterTurn() {
+		
+		Sleep(300);
+		cout << "¸ó½ºÅÍÀÇ ÅÏÀÔ´Ï´Ù." << endl << endl;
+		Sleep(300);
+		int damage = monster->performAction();
+		player->takeDamage(damage);
+		monster->decreaseCooldown();
+	}
 
-void GameManager::MonsterTurn() {
-    cout << "ëª¬ìŠ¤í„°ì˜ í„´ì…ë‹ˆë‹¤.\n";
-    int damage = monster->performAction();
-    player->takeDamage(damage);
-    monster->decreaseCooldown();
-}
+	void GameManager::PrintStatus() {
+		cout << "[ÇöÀç »óÅÂ]" << endl;
+		player->printStatus();
+		monster->printStatus();
+	}
 
-void GameManager::PrintStatus() {
-    cout << "[í˜„ì¬ ìƒíƒœ]\n";
-    player->printStatus();
-    monster->printStatus();
-}
+	bool GameManager::IsGameover() {
+		if (player->isAlive() <= 0) {
+			cout << "ÇÃ·¹ÀÌ¾î°¡ ÆĞ¹èÇß½À´Ï´Ù." << endl;
+			return true;
+		}
+		if (monster->isAlive() <= 0) {
+			cout << "¸ó½ºÅÍ¸¦ Ã³Ä¡Çß½À´Ï´Ù!." << endl;
+			delete monster;
+			monsterCount ++;
+			monster = new Monster("Monster" + to_string(monsterCount), 50 + monsterCount * 10, 10 + monsterCount * 2, 25 + monsterCount * 2, 3);
+			cout << "." << endl;
+			Sleep(200);
+			cout << "." << endl;
+			Sleep(200);
+			cout << "." << endl;
+			Sleep(200);
+			cout << "´ç½ÅÀº " << monster->getName() << "À»/¸¦ Á¶¿ìÇß½À´Ï´Ù." << endl << endl;
+		}
+		return false;
+	}
 
-bool GameManager::IsGameover() {
-    if (!player->isAlive()) {
-        cout << "í”Œë ˆì´ì–´ê°€ íŒ¨ë°°í–ˆìŠµë‹ˆë‹¤. ê²Œì„ ì¢…ë£Œ.\n";
-        return true;
-    }
+	void GameManager::GenerateEarlyEventTurns() {
+		int numEarlyEvents = 3;
+		int earlyTurnLimit = 5;
 
-    if (!monster->isAlive()) {
-        cout << "ëª¬ìŠ¤í„°ë¥¼ ì²˜ì¹˜í–ˆìŠµë‹ˆë‹¤!\n";
-        delete monster; // ê¸°ì¡´ ëª¬ìŠ¤í„° ê°ì²´ ì‚­ì œ
-        monsterCount++;
-        // ìƒˆë¡œìš´ ëª¬ìŠ¤í„° ìƒì„± (ìŠ¤íƒ¯ ì¦ê°€)
-        monster = new Monster("Monster" + to_string(monsterCount), 50 + monsterCount * 10, 10 + monsterCount * 2, 25 + monsterCount * 2, 3);
-        cout << monster->getName() << "ì´/ê°€ ìƒˆë¡œ ë“±ì¥í–ˆìŠµë‹ˆë‹¤!\n";
-    }
+		eventTurns.clear();
+		while (eventTurns.size() < numEarlyEvents) { //·£´ıÀÌº¥Æ®
+			int turn = rand() % earlyTurnLimit + 1;
+			if (find(eventTurns.begin(), eventTurns.end(), turn) == eventTurns.end()) {
+				eventTurns.push_back(turn);
+			}
+		}
 
-    return false; // ê²Œì„ì´ ì•„ì§ ëë‚˜ì§€ ì•Šì•˜ìŒ
-}
+		cout << "·£´ı ÀÌº¥Æ® ÅÏ: ";
+		for (int t : eventTurns) cout << t << " " << endl;
+	}
 
-void GameManager::GenerateEarlyEventTurns() {
-    int numEarlyEvents = 3;
-    int earlyTurnLimit = 5; // 1í„´ë¶€í„° 5í„´ê¹Œì§€ ì¤‘ ì´ë²¤íŠ¸ ë°œìƒ
+	bool GameManager::ShouldTriggerRandomEvent() {
+		if (turn <= 5) return false; // ÃÊ¹İ °íÁ¤ ÀÌº¥Æ® ÅÏÀÌ Áö³ª¸é ÀÏ¹İ ·£´ı ÀÌº¥Æ® È°¼ºÈ­
+		return (rand() % 100) < 20; // 20% È®·ü·Î ÀÌº¥Æ® ¹ß»ı
+	}
 
-    eventTurns.clear();
-    while (eventTurns.size() < numEarlyEvents) {
-        int turn = rand() % earlyTurnLimit + 1; // 1~5 ì‚¬ì´ì˜ ë‚œìˆ˜
-        // ì¤‘ë³µëœ í„´ì´ ì•„ë‹ˆë¼ë©´ ì¶”ê°€
-        if (find(eventTurns.begin(), eventTurns.end(), turn) == eventTurns.end()) {
-            eventTurns.push_back(turn);
-        }
-    }
-     cout << "ëœë¤ ì´ë²¤íŠ¸ í„´: ";
-    for (int t : eventTurns) cout << t << " ";
-    cout << endl;
-}
+	void GameManager::TriggerRandomEvent() {
+		int effectType = rand() % 4; // 0, 1, 2, 3 Áß ÇÏ³ª
 
-bool GameManager::ShouldTriggerRandomEvent() {
-    if (turn <= 5) return false; // ì´ˆë°˜ ê³ ì • ì´ë²¤íŠ¸ í„´ì´ ì§€ë‚˜ë©´ ì¼ë°˜ ëœë¤ ì´ë²¤íŠ¸ í™œì„±í™”
-    return (rand() % 100) < 20; // 20% í™•ë¥ ë¡œ ì´ë²¤íŠ¸ ë°œìƒ
-}
+		switch (effectType) {
+		case 0:
+			cout << "[ÀÌº¥Æ®] ÃÖ´ë Ã¼·ÂÀÌ 10 Áõ°¡ÇÕ´Ï´Ù!\n";
+			player->increaseMaxHP(10); // Player Å¬·¡½ºÀÇ increaseMaxHP È£Ãâ
+			break;
+		case 1:
+			cout << "[ÀÌº¥Æ®] ±Ã±Ø±â ÄğÅ¸ÀÓÀÌ ÃÊ±âÈ­µË´Ï´Ù!\n";
+			player->resetUltimateCooldown(); // Player Å¬·¡½ºÀÇ resetUltimateCooldown È£Ãâ
+			break;
+		case 2:
+			cout << "[ÀÌº¥Æ®] Ã¼·ÂÀ» 20 È¸º¹ÇÕ´Ï´Ù!\n";
+			player->heal(20); // Character Å¬·¡½ºÀÇ heal ÇÔ¼ö È£Ãâ
+			break;
+		case 3:
+			cout << "[ÀÌº¥Æ®] ¸ğÇèÀ» ÇÏ´øÁß ¿­¸Å¸¦ ¸Ô¾ú´õ´Ï Ã¼·ÂÀÌ ¿ÏÀüÈ÷ È¸º¹µÇ¾ú½À´Ï´Ù!!\n";
+			player->healToFull();
+			break;
+		}
+	}
 
-void GameManager::TriggerRandomEvent() {
-    int effectType = rand() % 4; // 0, 1, 2, 3 ì¤‘ í•˜ë‚˜
-
-    switch (effectType) {
-    case 0:
-        cout << "[ì´ë²¤íŠ¸] ìµœëŒ€ ì²´ë ¥ì´ 10 ì¦ê°€í•©ë‹ˆë‹¤!\n";
-        player->increaseMaxHP(10); // Player í´ë˜ìŠ¤ì˜ increaseMaxHP í˜¸ì¶œ
-        break;
-    case 1:
-        cout << "[ì´ë²¤íŠ¸] ê¶ê·¹ê¸° ì¿¨íƒ€ì„ì´ ì´ˆê¸°í™”ë©ë‹ˆë‹¤!\n";
-        player->resetUltimateCooldown(); // Player í´ë˜ìŠ¤ì˜ resetUltimateCooldown í˜¸ì¶œ
-        break;
-    case 2:
-        cout << "[ì´ë²¤íŠ¸] ì²´ë ¥ì„ 20 íšŒë³µí•©ë‹ˆë‹¤!\n";
-        player->heal(20); // Character í´ë˜ìŠ¤ì˜ heal í•¨ìˆ˜ í˜¸ì¶œ
-        break;
-    case 3:
-        cout << "[ì´ë²¤íŠ¸] ëª¨í—˜ì„ í•˜ë˜ì¤‘ ì—´ë§¤ë¥¼ ë¨¹ì—ˆë”ë‹ˆ ì²´ë ¥ì´ ì™„ì „íˆ íšŒë³µë˜ì—ˆìŠµë‹ˆë‹¤!!\n";
-        player->healToFull();
-        break;
-    }
-}
-
-void GameManager::CheckEventTurn() {
-    // ì´ˆë°˜ ê³ ì • ì´ë²¤íŠ¸ í„´ì¸ì§€ í™•ì¸
-    if (find(eventTurns.begin(), eventTurns.end(), turn) != eventTurns.end()) {
-        TriggerRandomEvent(); // ê³ ì • ì´ë²¤íŠ¸ ë°œìƒ
-    }
-    // ê³ ì • ì´ë²¤íŠ¸ í„´ì´ ì•„ë‹ˆë©´ì„œ, í™•ë¥ ì ìœ¼ë¡œ ëœë¤ ì´ë²¤íŠ¸ ë°œìƒ ì¡°ê±´ ì¶©ì¡± ì‹œ
-    else if (ShouldTriggerRandomEvent()) {
-        TriggerRandomEvent(); // í™•ë¥  ì´ë²¤íŠ¸ ë°œìƒ
-    }
-}
+	void GameManager::CheckEventTurn() {
+		// ÃÊ¹İ °íÁ¤ ÀÌº¥Æ® ÅÏÀÎÁö È®ÀÎ
+		if (find(eventTurns.begin(), eventTurns.end(), turn) != eventTurns.end()) {
+			TriggerRandomEvent(); // °íÁ¤ ÀÌº¥Æ® ¹ß»ı
+		}
+		// °íÁ¤ ÀÌº¥Æ® ÅÏÀÌ ¾Æ´Ï¸é¼­, È®·üÀûÀ¸·Î ·£´ı ÀÌº¥Æ® ¹ß»ı Á¶°Ç ÃæÁ· ½Ã
+		else if (ShouldTriggerRandomEvent()) {
+			TriggerRandomEvent(); // È®·ü ÀÌº¥Æ® ¹ß»ı
+		}
+		}

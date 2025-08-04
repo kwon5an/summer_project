@@ -1,20 +1,28 @@
 ﻿#include <iostream>
 #include <string>
-#include <ctime> // srand(), time() 사용을 위해 추가
-#include <cstdlib> // srand() 사용을 위해 추가
+#include <cstdlib>
+#include <ctime>
 #include "GameManager.h"
+#include <Windows.h>
 using namespace std;
 
-int main() {
-    // 난수 생성기 초기화: 프로그램 시작 시 한 번만 호출
-    srand(static_cast<unsigned int>(time(nullptr)));
 
-    string name;
-    cout << "플레이어 이름을 입력하세요: ";
-    getline(cin, name); // 공백을 포함한 이름 입력 가능
+int main()
+{
+	srand(static_cast<unsigned int>(time(nullptr))); // 랜덤 시드 초기화
+	string name;
+	cout << "플레이어 이름을 입력하세요: ";
+	getline(cin, name);
 
-    GameManager game(name);
-    game.StartGame();
+	GameManager game(name);
+	game.startGame();
+	cout << "." << endl;
+	Sleep(200);
+	cout << "." << endl;
+	Sleep(200);
+	cout << "." << endl;
+	Sleep(200);
+	cout << "게임이 종료됩니다." << endl;
 
-    return 0;
+	return 0;
 }

@@ -1,47 +1,46 @@
 #include "Monster.h"
 #include <iostream>
+#include <windows.h>
 using namespace std;
 
 Monster::Monster(const string& name, int hp, int baseDamage, int ultDamage, int ultCooldown)
-    : Character(name, hp),
-    baseAttackDamage(baseDamage),
-    ultimateAttackDamage(ultDamage),
-    ultimateCooldownMax(ultCooldown),
-    ultimateCooldownCurrent(0) {
-}
+	: Character(name,hp),
+	baseAttackDamage(baseDamage),
+	ultimateAttackDamage(ultDamage),
+	ultimateCooldownMax(ultCooldown),
+	ultimateCooldownCurrent(0) {}
 
 int Monster::performAction() {
-    if (ultimateCooldownCurrent == 0) {
-        cout << name << "ì´/ê°€ ê¶ê·¹ê¸°ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤! (" << ultimateAttackDamage << " í”¼í•´)\n";
-        ultimateCooldownCurrent = ultimateCooldownMax;
-        return ultimateAttackDamage;
-    }
-    else {
-        cout << name << "ì´/ê°€ ê¸°ë³¸ ê³µê²©ì„ í•©ë‹ˆë‹¤! (" << baseAttackDamage << " í”¼í•´)\n";
-        return baseAttackDamage;
-    }
+	if (ultimateCooldownCurrent == 0) {
+		cout << name << "ÀÌ/°¡ ±Ã±Ø±â¸¦ »ç¿ëÇÕ´Ï´Ù!" << endl;
+		Sleep(200);
+		ultimateCooldownCurrent = ultimateCooldownMax;
+		return ultimateAttackDamage;
+	} 
+	else {
+		cout << name << "ÀÌ/°¡ ÀÏ¹İ °ø°İÀ» ÇÕ´Ï´Ù!" << endl;
+		Sleep(200);
+		return baseAttackDamage;
+	}
 }
 
 void Monster::decreaseCooldown() {
-    if (ultimateCooldownCurrent > 0) {
-        ultimateCooldownCurrent--;
-    }
+	if (ultimateCooldownCurrent > 0) {
+		ultimateCooldownCurrent--;
+	}
 }
 
-// ì¶”ê°€: ëª¬ìŠ¤í„° ê¶ê·¹ê¸° í˜„ì¬ ì¿¨íƒ€ì„ì„ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜ êµ¬í˜„
-int Monster::getUltimateCooldownCurrent() const {
-    return ultimateCooldownCurrent;
+int Monster::getUltimateCoddownCurrent() const {
+	return ultimateCooldownCurrent;
 }
 
 void Monster::printStatus() const {
-    cout << name << " (ëª¬ìŠ¤í„°) HP: " << hp << "/" << maxHp << "\n";
+	cout << getName() << " HP: " << hp << "/" << maxHp << " ";
 
-    // ì¶”ê°€: ëª¬ìŠ¤í„° ê¶ê·¹ê¸° ì¿¨íƒ€ì„ í‘œì‹œ
-    if (ultimateCooldownCurrent == 0) {
-        cout << " [ê¶ê·¹ê¸° ì‚¬ìš© ê°€ëŠ¥!]\n";
-    }
-    else {
-        cout << " [ê¶ê·¹ê¸° ì¿¨íƒ€ì„: " << ultimateCooldownCurrent << "í„´]\n";
-    }
+	if (ultimateCooldownCurrent == 0) {
+		cout << "[¸ó½ºÅÍ ±Ã±Ø±â »ç¿ë °¡´É!]" << endl << endl;
+	}
+	else {
+		cout << "[¸ó½ºÅÍ ±Ã±Ø±â ÄğÅ¸ÀÓ: " << ultimateCooldownCurrent << "ÅÏ]" << endl << endl;
+	}
 }
-

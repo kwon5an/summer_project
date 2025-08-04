@@ -1,4 +1,4 @@
-#ifndef MONSTER_H
+﻿#ifndef MONSTER_H
 #define MONSTER_H
 
 #include "Character.h"
@@ -9,7 +9,7 @@ class Monster : public Character {
 public:
     Monster(const string& name, int hp, int baseDamage, int ultDamage, int ultCooldown);
 
-    int performAction();     // 공격 결정 및 데미지 반환
+    int performAction();      // 공격 결정 및 데미지 반환
     void decreaseCooldown(); // 쿨타임 감소
 
 

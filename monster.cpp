@@ -1,4 +1,4 @@
-﻿#include "Monster.h"
+#include "Monster.h"
 #include <iostream>
 using namespace std;
 
@@ -35,6 +35,7 @@ int Monster::getUltimateCooldownCurrent() const {
 
 void Monster::printStatus() const {
     cout << name << " (몬스터) HP: " << hp << "/" << maxHp << "\n";
+
     // 추가: 몬스터 궁극기 쿨타임 표시
     if (ultimateCooldownCurrent == 0) {
         cout << " [궁극기 사용 가능!]\n";
@@ -43,3 +44,4 @@ void Monster::printStatus() const {
         cout << " [궁극기 쿨타임: " << ultimateCooldownCurrent << "턴]\n";
     }
 }
+

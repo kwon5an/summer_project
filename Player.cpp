@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include <iostream>
 #include <cstdlib> // rand() 사용을 위해 필요
 // #include <ctime> // srand()가 main으로 이동했으므로 여기서는 불필요
@@ -17,8 +17,10 @@ void Player::basicAttack(Character& target) {
 
 void Player::skill2(Character& target) {
     cout << name << "이/가 치명타 스킬을 사용했습니다!\n";
+  
     int critChance = rand() % 100; // 0~99
     int damage = (critChance < 30) ? 30 : 15; // 30% 확률로 30 데미지, 아니면 15
+
 
     if (critChance < 30)
         cout << "치명타 성공!! ";
@@ -65,6 +67,7 @@ int Player::getUltimateCooldown() const {
 int Player::getHealCooldown() const {
     return healCooldown;
 }
+
 
 void Player::reduceCooldowns() {
     if (ultimateCooldown > 0) ultimateCooldown--;

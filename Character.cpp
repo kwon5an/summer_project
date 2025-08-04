@@ -1,37 +1,38 @@
 #include "Character.h"
 #include <iostream>
+#include <windows.h>
 using namespace std;
 
 Character::Character(const string& name, int hp)
-    : name(name), hp(hp), maxHp(hp) {
+	: name(name), hp(hp), maxHp(hp) {
 }
 
 void Character::takeDamage(int damage) {
-    hp -= damage;
-    if (hp < 0) hp = 0;
-
-    cout << name << "ì´/ê°€ " << damage << "ì˜ ë°ë¯¸ì§€ë¥¼ ìž…ì—ˆìŠµë‹ˆë‹¤. (HP: " << hp << "/" << maxHp << ")\n";
+	hp -= damage;
+	if (hp < 0) hp = 0;
+	cout << name << "ÀÌ/°¡ " << damage << "ÀÇ ÇÇÇØ¸¦ ÀÔ¾ú½À´Ï´Ù! (ÇöÀç Ã¼·Â: " << hp << "/" << maxHp << ")" << endl << endl;
+	Sleep(500);
 }
 
 void Character::heal(int amount) {
-    hp += amount;
-    if (hp > maxHp) hp = maxHp;
-
-    cout << name << "ì´/ê°€ " << amount << "ë§Œí¼ ì²´ë ¥ì„ íšŒë³µí–ˆìŠµë‹ˆë‹¤. (HP: " << hp << "/" << maxHp << ")\n";
+	hp += amount;
+	if (hp > maxHp) hp = maxHp;
+	cout << name << "ÀÌ/°¡ " << amount << "¸¸Å­ Ã¼·ÂÀ» È¸º¹Çß½À´Ï´Ù! (ÇöÀç Ã¼·Â: " << hp << "/" << maxHp << ")" << endl << endl;
+	Sleep(300);
 }
 
 bool Character::isAlive() const {
-    return hp > 0;
+	return hp > 0;
 }
 
 string Character::getName() const {
-    return name;
+	return name;
 }
 
-int Character::getHP() const {
-    return hp;
+int Character::getHp() const {
+	return hp;
 }
 
-int Character::getMaxHP() const {
-    return maxHp;
+int Character::getMaxHp() const {
+	return maxHp;
 }

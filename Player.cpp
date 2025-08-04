@@ -1,61 +1,60 @@
-#include "Player.h"
 #include <iostream>
-#include <cstdlib> // rand() ì‚¬ìš©ì„ ìœ„í•´ í•„ìš”
-// #include <ctime> // srand()ê°€ mainìœ¼ë¡œ ì´ë™í–ˆìœ¼ë¯€ë¡œ ì—¬ê¸°ì„œëŠ” ë¶ˆí•„ìš”
+#include <cstdlib>
+#include <windows.h>
+#include "Player.h"
 using namespace std;
 
 Player::Player(const string& name, int hp)
-    : Character(name, hp), ultimateCooldown(0), healCooldown(0) {
-    // srand()ëŠ” main í•¨ìˆ˜ì—ì„œ í•œ ë²ˆë§Œ í˜¸ì¶œë˜ë„ë¡ ìˆ˜ì •ë¨
-}
+    : Character(name, hp), ultimateCooldown(0), healCooldown(0) {}
 
 void Player::basicAttack(Character& target) {
     int damage = 10;
-    cout << name << "ì´/ê°€ ê¸°ë³¸ ê³µê²©ì„ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
+    cout << name << "ÀÌ/°¡ ±âº» °ø°İÀ» »ç¿ëÇß½À´Ï´Ù!\n";
+    Sleep(200);
     target.takeDamage(damage);
 }
 
 void Player::skill2(Character& target) {
-    cout << name << "ì´/ê°€ ì¹˜ëª…íƒ€ ìŠ¤í‚¬ì„ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
-  
-    int critChance = rand() % 100; // 0~99
-    int damage = (critChance < 30) ? 30 : 15; // 30% í™•ë¥ ë¡œ 30 ë°ë¯¸ì§€, ì•„ë‹ˆë©´ 15
-
+    cout << name << "ÀÌ/°¡ Ä¡¸íÅ¸ ½ºÅ³À» »ç¿ëÇß½À´Ï´Ù!\n";
+    Sleep(200);
+    int critChance = rand() % 100;
+    int damage = (critChance < 30) ? 30 : 15;
 
     if (critChance < 30)
-        cout << "ì¹˜ëª…íƒ€ ì„±ê³µ!! ";
+        cout << "Ä¡¸íÅ¸ ¼º°ø!! ";
     else
-        cout << "ì¹˜ëª…íƒ€ ì‹¤íŒ¨. ";
+        cout << "Ä¡¸íÅ¸ ½ÇÆĞ. ";
 
     target.takeDamage(damage);
 }
 
 bool Player::ultimateSkill(Character& target) {
     if (canUseUltimate()) {
-        cout << name << "ì´/ê°€ ê¶ê·¹ê¸°ë¥¼ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤!\n";
+        cout << name << "ÀÌ/°¡ ±Ã±Ø±â¸¦ »ç¿ëÇß½À´Ï´Ù!\n";
+        Sleep(200);
         target.takeDamage(50);
-        ultimateCooldown = 5; // ì¿¨íƒ€ì„ ì„¤ì •
+        ultimateCooldown = 5;
         return true;
     }
     else {
-        cout << "ê¶ê·¹ê¸°ëŠ” ì•„ì§ ì¿¨íƒ€ì„ì…ë‹ˆë‹¤. (" << ultimateCooldown << "í„´ ë‚¨ìŒ)\n";
+        cout << "±Ã±Ø±â´Â ¾ÆÁ÷ ÄğÅ¸ÀÓÀÔ´Ï´Ù. (" << ultimateCooldown << "ÅÏ ³²À½)\n";
         return false;
     }
 }
 
 bool Player::heal() {
     if (canUseHeal()) {
-        int healAmount = static_cast<int>((maxHp - hp) * 0.5); // ìƒì€ ì²´ë ¥ì˜ 50% íšŒë³µ
-        if (healAmount <= 0) { // ì²´ë ¥ì´ ê°€ë“ ì°¼ê±°ë‚˜ íšŒë³µëŸ‰ì´ 0 ì´í•˜ì¼ ê²½ìš°
-            cout << name << "ì˜ ì²´ë ¥ì´ ì´ë¯¸ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤!\n";
+        int healAmount = static_cast<int>((maxHp - hp) * 0.5);
+        if (healAmount <= 0) {
+            cout << name << "ÀÇ Ã¼·ÂÀÌ ÀÌ¹Ì °¡µæ Ã¡½À´Ï´Ù!\n";
             return false;
         }
-        Character::heal(healAmount); // ë¶€ëª¨ í´ë˜ìŠ¤ì˜ heal í•¨ìˆ˜ í˜¸ì¶œ
-        healCooldown = 3; // ì¿¨íƒ€ì„ ì„¤ì •
+        Character::heal(healAmount);
+        healCooldown = 3;
         return true;
     }
     else {
-        cout << "íì€ ì•„ì§ ì¿¨íƒ€ì„ì…ë‹ˆë‹¤. (" << healCooldown << "í„´ ë‚¨ìŒ)\n";
+        cout << "ÈúÀº ¾ÆÁ÷ ÄğÅ¸ÀÓÀÔ´Ï´Ù. (" << healCooldown << "ÅÏ ³²À½)\n";
         return false;
     }
 }
@@ -83,29 +82,28 @@ bool Player::canUseHeal() const {
 }
 
 void Player::printStatus() const {
-    cout << name << " (í”Œë ˆì´ì–´) HP: " << hp << "/" << maxHp << "\n";
+    cout << name << " (ÇÃ·¹ÀÌ¾î) HP: " << hp << "/" << maxHp << "\n";
 }
 
-// ì´ í•¨ìˆ˜ë§Œ ë‚¨ê¸°ê³  'increaseMaxHp' (ì†Œë¬¸ì 'p') ë²„ì „ì€ ì œê±°
+// ÀÌ ÇÔ¼ö¸¸ ³²±â°í 'increaseMaxHp' (¼Ò¹®ÀÚ 'p') ¹öÀüÀº Á¦°Å
 void Player::increaseMaxHP(int amount) {
     maxHp += amount;
-    hp += amount; // ìµœëŒ€ ì²´ë ¥ ì¦ê°€ ì‹œ í˜„ì¬ ì²´ë ¥ë„ ì¦ê°€ (ë„˜ì§€ ì•Šë„ë¡)
+    hp += amount; // ÃÖ´ë Ã¼·Â Áõ°¡ ½Ã ÇöÀç Ã¼·Âµµ Áõ°¡ (³ÑÁö ¾Êµµ·Ï)
     if (hp > maxHp) hp = maxHp;
-    cout << name << "ì˜ ìµœëŒ€ ì²´ë ¥ì´ " << amount << " ì¦ê°€í–ˆìŠµë‹ˆë‹¤! (í˜„ì¬: " << maxHp << ")\n";
+    cout << name << "ÀÇ ÃÖ´ë Ã¼·ÂÀÌ " << amount << " Áõ°¡Çß½À´Ï´Ù! (ÇöÀç: " << maxHp << ")\n";
 }
 
 void Player::healToFull() {
     hp = maxHp;
-    cout << "ì²´ë ¥ì´ ì „ë¶€ íšŒë³µë¨! (" << hp << "/" << maxHp << ")\n";
+    cout << "Ã¼·ÂÀÌ ÀüºÎ È¸º¹µÊ! (" << hp << "/" << maxHp << ")\n";
 }
 
 void Player::resetUltimateCooldown() {
     ultimateCooldown = 0;
 }
 
-// Player.cpp íŒŒì¼ ë‚´ìš©ì˜ ì–´ë”˜ê°€ (ì˜ˆ: ë§¨ ë§ˆì§€ë§‰)ì— ì¶”ê°€
+// Player.cpp ÆÄÀÏ ³»¿ëÀÇ ¾îµò°¡ (¿¹: ¸Ç ¸¶Áö¸·)¿¡ Ãß°¡
 void Player::heal(int amount) {
-    // Characterì˜ heal í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì‹¤ì œ ì²´ë ¥ íšŒë³µ ë¡œì§ì„ ìˆ˜í–‰
+    // CharacterÀÇ heal ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ½ÇÁ¦ Ã¼·Â È¸º¹ ·ÎÁ÷À» ¼öÇà
     Character::heal(amount);
 }
-

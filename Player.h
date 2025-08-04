@@ -14,19 +14,19 @@ public:
     Player(const string& name, int hp);
 
     void basicAttack(Character& target);
-    void skill2(Character& target);          // ì¹˜ëª…íƒ€ ê³µê²©
+    void skill2(Character& target);         // Ä¡¸íÅ¸ °ø°İ
 
-    bool ultimateSkill(Character& target);  // ê¶ê·¹ê¸°
-    bool heal();                             // ì¸ì ì—†ëŠ” í (ì¿¨íƒ€ì„ ì ìš©)
+    bool ultimateSkill(Character& target);  // ±Ã±Ø±â
+    bool heal();    // È¸º¹
+    void heal(int amount);
 
-    void heal(int amount); // Characterì˜ healì„ Playerì—ì„œë„ ëª…ì‹œì ìœ¼ë¡œ ì‚¬ìš©í•˜ê² ë‹¤ê³  ì„ ì–¸
-
-    void reduceCooldowns();  // í„´ë§ˆë‹¤ ì¿¨íƒ€ì„ ê°ì†Œ
-
+    void reduceCooldowns();  // ÅÏ¸¶´Ù ÄğÅ¸ÀÓ °¨¼Ò
+     
 
     bool canUseUltimate() const;
     bool canUseHeal() const;
 
+    // Ãß°¡: ÇöÀç ÄğÅ¸ÀÓ °ªÀ» °¡Á®¿À´Â ÇÔ¼ö
     int getUltimateCooldown() const;
     int getHealCooldown() const;
 

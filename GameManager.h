@@ -12,8 +12,8 @@ class GameManager {
 private:
 	Player* player;
 	Monster* monster;
-	int monsterCount;
-	int turn;
+	int monsterCount ;
+	int turn ;
 
 	vector<int> eventTurns; // 랜덤 이벤트 턴 저장
 
@@ -31,6 +31,8 @@ public:
 	void MonsterTurn();
 	void PrintStatus();
 	bool IsGameover();
+	int getMonsterKillCount() const;
+	int getTurnCount() const;
 };
 
 #endif 

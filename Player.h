@@ -9,6 +9,8 @@ class Player : public Character {
 private:
     int ultimateCooldown;
     int healCooldown;
+    int buffTurn = 0;
+    int buffAmount = 0;
 
 public:
     Player(const string& name, int hp);
@@ -35,6 +37,8 @@ public:
     void increaseMaxHP(int amount);
     void healToFull();
     void resetUltimateCooldown();
+
+    void applybuff(int amount, int turns);
 };
 
 #endif

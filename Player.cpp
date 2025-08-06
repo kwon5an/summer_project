@@ -85,7 +85,6 @@ void Player::printStatus() const {
     cout << name << " (플레이어) HP: " << hp << "/" << maxHp << "\n";
 }
 
-// 이 함수만 남기고 'increaseMaxHp' (소문자 'p') 버전은 제거
 void Player::increaseMaxHP(int amount) {
     maxHp += amount;
     hp += amount; // 최대 체력 증가 시 현재 체력도 증가 (넘지 않도록)
@@ -102,8 +101,6 @@ void Player::resetUltimateCooldown() {
     ultimateCooldown = 0;
 }
 
-// Player.cpp 파일 내용의 어딘가 (예: 맨 마지막)에 추가
 void Player::heal(int amount) {
-    // Character의 heal 함수를 호출하여 실제 체력 회복 로직을 수행
     Character::heal(amount);
 }

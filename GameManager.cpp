@@ -13,20 +13,9 @@ void SetConsoleColor(int color) {
 }
 
 // 색상 상수 정의
-const int BLACK = 0;
-const int BLUE = FOREGROUND_BLUE;
-const int GREEN = FOREGROUND_GREEN;
-const int CYAN = FOREGROUND_BLUE | FOREGROUND_GREEN;
-const int RED = FOREGROUND_RED;
-const int MAGENTA = FOREGROUND_RED | FOREGROUND_BLUE;
-const int YELLOW = FOREGROUND_RED | FOREGROUND_GREEN;
-const int WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-const int INTENSE_BLACK = FOREGROUND_INTENSITY; // 회색
 const int INTENSE_BLUE = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
 const int INTENSE_GREEN = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-const int INTENSE_CYAN = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
 const int INTENSE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
-const int INTENSE_MAGENTA = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
 const int INTENSE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY; // 밝은 노랑
 const int INTENSE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY; // 밝은 하양 (기본)
 
@@ -57,9 +46,16 @@ void GameManager::startGame() {
 
 		PlayerTurn();
 		if (IsGameover()) break;
+		
+		if (monsterJustRespawned) {
+			monsterJustRespawned = false;
+		}
+		else {
+			MonsterTurn();
+			if (IsGameover()) break;
 
-		MonsterTurn();
-		if (IsGameover()) break;
+
+		}
 
 		turn++;
 	}
@@ -142,6 +138,8 @@ bool GameManager::IsGameover() {
 		cout << "." << endl;
 		Sleep(200);
 		cout << "당신은 " << monster->getName() << "을/를 조우했습니다." << endl << endl;
+		monsterJustRespawned = true;
+
 	}
 	return false;
 }
@@ -158,7 +156,7 @@ void GameManager::GenerateEarlyEventTurns() {
 		}
 	}
 
-	cout << "랜덤 이벤트 턴: ";
+	cout << "확정 랜덤 이벤트 턴: ";
 	for (int t : eventTurns) cout << t << " " ; //나중에 없애기
 }
 

@@ -31,9 +31,16 @@ void GameManager::startGame() {
 
 		PlayerTurn();
 		if (IsGameover()) break;
+		
+		if (monsterJustRespawned) {
+			monsterJustRespawned = false;
+		}
+		else {
+			MonsterTurn();
+			if (IsGameover()) break;
 
-		MonsterTurn();
-		if (IsGameover()) break;
+
+		}
 
 		turn++;
 	}
@@ -114,6 +121,7 @@ bool GameManager::IsGameover() {
 		cout << "." << endl;
 		Sleep(200);
 		cout << "당신은 " << monster->getName() << "을/를 조우했습니다." << endl << endl;
+		monsterJustRespawned = true;
 	}
 	return false;
 }

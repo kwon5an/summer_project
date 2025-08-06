@@ -12,8 +12,9 @@ class GameManager {
 private:
 	Player* player;
 	Monster* monster;
-	int monsterCount ;
-	int turn ;
+	int monsterCount;
+	int turn;
+	bool monsterJustRespawned = false;
 
 	vector<int> eventTurns; // 랜덤 이벤트 턴 저장
 

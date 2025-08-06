@@ -6,6 +6,21 @@
 
 using namespace std;
 
+// 콘솔 텍스트 색상 변경 함수
+void SetConsoleColor(int color) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
+
+// 색상 상수 정의
+const int INTENSE_BLUE = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+const int INTENSE_GREEN = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+const int INTENSE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
+const int INTENSE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY; // 밝은 노랑
+const int INTENSE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY; // 밝은 하양 (기본)
+
+
+
 GameManager::GameManager(const string& playerName) {
 	monsterCount = 1;
 	turn = 1;
@@ -106,7 +121,9 @@ void GameManager::PrintStatus() {
 
 bool GameManager::IsGameover() {
 	if (player->isAlive() == false) {
+		SetConsoleColor(INTENSE_RED); // 게임 종료 빨간색
 		cout << "플레이어가 패배했습니다." << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		return true;
 	}
 	if (monster->isAlive() == false) {
@@ -122,6 +139,7 @@ bool GameManager::IsGameover() {
 		Sleep(200);
 		cout << "당신은 " << monster->getName() << "을/를 조우했습니다." << endl << endl;
 		monsterJustRespawned = true;
+
 	}
 	return false;
 }
@@ -152,34 +170,46 @@ void GameManager::TriggerRandomEvent() {
 
 	switch (effectType) {
 	case 0:
+		SetConsoleColor(INTENSE_YELLOW);
 		cout << "[이벤트] 최대 체력이 10 증가합니다!" << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		player->increaseMaxHP(10); 
 		Sleep(300);
 		break;
 	case 1:
+		SetConsoleColor(INTENSE_BLUE); // 궁극기 초기화 파랑색
 		cout << "[이벤트] 궁극기 쿨타임이 초기화됩니다!" << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		player->resetUltimateCooldown(); 
 		Sleep(300);
 		break;
 	case 2:
+		SetConsoleColor(INTENSE_GREEN); // 체력 회복 초록색
 		cout << "[이벤트] 체력을 20 회복합니다!" << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		player->heal(20); 
 		Sleep(300);
 		break;
 	case 3:
+		SetConsoleColor(INTENSE_GREEN); // 체력 회복 초록색
 		cout << "[이벤트] 모험을 하던 중 열매를 먹었더니 체력이 완전히 회복되었습니다!" << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		player->healToFull();
 		Sleep(300);
 		break;
 
 	case 4:
+		SetConsoleColor(INTENSE_GREEN); // 체력 회복 초록색
 		cout << "[이벤트] 동굴에서 쉬던 중 분수를 보았다. 체력이 30 회복되었습니다! " << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 		player->heal(30);
 		Sleep(300);
 		break;
 
 	case 5: 
+		SetConsoleColor(INTENSE_RED); // 데미지 증가 빨간색
 		cout << "[이벤트] 땅에 박힌 검에 걸려 넘어졌더니 검의 힘이 흡수되었습니다. 한 턴 동안 일반 공격이 99999만큼 증가합니다!" << endl << endl;
+		SetConsoleColor(INTENSE_WHITE); // 기본색으로 돌아옴
 
 	}
 }
